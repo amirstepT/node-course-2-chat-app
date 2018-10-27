@@ -17,14 +17,19 @@ io.on('connection', (socket) => {
     console.log('New user connected');
 
 
-    socket.emit('newMessage', {
-        from: 'mike@example.com',
-        text: 'Hey, what\'s going on?',
-        createAt: 123
-    });
+    // socket.emit('newMessage', {
+    //     from: 'mike@example.com',
+    //     text: 'Hey, what\'s going on?',
+    //     createAt: 123
+    // });
 
     socket.on('createMessage', (newMessage) => {
         console.log('createMessage: ', newMessage);
+        io.emit('newMessage', { // socket.emit emits to one browser, io.emit emits to all connected browers
+            from: newMessage.from,
+            text: newMessage.text,
+            createdAt: new Date().getTime()
+        });
     });
 
 
